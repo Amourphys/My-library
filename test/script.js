@@ -8426,9 +8426,9 @@ Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('div').click(function (
 });
 console.log(Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('div').eq(2).find('.more'));
 console.log(Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.some').closest('.findme'));
-console.log(Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.more').eq(0).siblings());
-Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').fadeOut(1800);
-Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').fadeIn(1800); //console.log($('button').html());
+console.log(Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('.more').eq(0).siblings()); //$('button').fadeOut(1800);
+//$('button').fadeIn(1800);
+//console.log($('button').html());
 
 /* function sayHello() {
     console.log('Hello!');
