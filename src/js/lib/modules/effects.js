@@ -56,3 +56,4 @@ $.prototype.fadeOut = function(dur, fin) {
 
     return this;
 };
+
