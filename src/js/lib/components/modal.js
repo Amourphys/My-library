@@ -72,7 +72,7 @@ import $ from '../core';
 
 $.prototype.modal = function(created) {
     let modalContent = document.querySelector('.modal-content');
-    let paddingOffsetNow = window.innerWidth - document.body.offsetWidth + 'px';
+    let paddingOffsetNow = window.innerWidth - document.body.offsetWidth + 'px';//ширина скролла в пикселях
     console.log(paddingOffsetNow);
     for (let i = 0; i < this.length; i++) {
         const target = this[i].getAttribute('data-target');
@@ -80,16 +80,19 @@ $.prototype.modal = function(created) {
             e.preventDefault();
             $(target).fadeIn(500);
             document.body.style.overflow = 'hidden';
-            
-            modalContent.style.marginRight = modalContent.style.marginRight + paddingOffsetNow;
+            document.body.style.marginRight = paddingOffsetNow;//замена скролла при открытии окна
         });
-    
+
+        
 
         const closeElements = document.querySelectorAll(`${target} [data-close]`);
         closeElements.forEach(elem => {
             $(elem).click(() => {
                 $(target).fadeOut(500);
-                document.body.style.overflow = '';
+                setTimeout(() => {
+                    document.body.style.overflow = '';
+                    document.body.style.marginRight = '0px';//аннулируем значение ширины скролла при закрытии окна
+                }, 500);
                 if (created) {
                     document.querySelector(target).remove();
                 }
@@ -99,7 +102,10 @@ $.prototype.modal = function(created) {
         $(target).click(e => {
             if (e.target.classList.contains('modal')) {
                 $(target).fadeOut(500);
-                document.body.style.overflow = '';
+                setTimeout(() => {
+                    document.body.style.overflow = '';
+                    document.body.style.marginRight = '0px';//аннулируем значение ширины скролла при закрытии окна
+                }, 500);
                 if (created) {
                     document.querySelector(target).remove();
                 }
@@ -156,6 +162,6 @@ $.prototype.createModal = function({text, btns} = {}) {
         modal.querySelector('.modal-footer').append(...buttons);
         document.body.appendChild(modal);
         $(this[i]).modal(true);
-        $(this[i].getAttribute('data-target')).fadeIn(500);
+        $(this[i].getAttribute('data-target')).fadeIn(300);
     }
 };
