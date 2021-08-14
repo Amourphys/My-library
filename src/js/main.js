@@ -47,3 +47,36 @@ $('button').eq(2).on('click', () => {
 );
 
 $('.dropdown-toggle').dropdown(); */
+
+$('#trigger').click(() => $('#trigger').createModal({
+    text: {
+        title: 'Modal title',
+        body: 'Lorem ipsum dolor sit amet'
+    },
+    btns: {
+        count: 3,
+        settings: [
+            [
+                'Close',
+                ['btn-danger', 'mr-10'],
+                true
+            ],
+            [
+                'Save changes',
+                ['btn-success'],
+                false,
+                () => {
+                    alert('Data saved');
+                }
+            ],
+            [
+                'Another btn',
+                ['btn-warning', 'ml-10'],
+                false,
+                () => {
+                    alert('Hello World!');
+                }
+            ]
+        ]
+    }
+}));

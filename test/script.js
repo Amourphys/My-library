@@ -8034,10 +8034,76 @@ Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.dropdown-toggle').dropdo
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core */ "./src/js/lib/core.js");
+ // Modal static
 
+/* $.prototype.modal = function() {
+    //let scroll = calcScroll();
+    let modalContent = document.querySelector('.modal-content');
+    let paddingOffsetNow = window.innerWidth - document.body.offsetWidth + 'px';
+    console.log(paddingOffsetNow);
+    for (let i = 0; i < this.length; i++) {
+        const target = this[i].getAttribute('data-target');
+        $(this[i]).click((e) => {
+            e.preventDefault();
+            $(target).fadeIn(500);
+            document.body.style.overflow = 'hidden';
+            //document.body.style.marginRight = `${scroll}px`;
+            modalContent.style.marginRight = modalContent.style.marginRight + paddingOffsetNow;
+        });
+    }
 
-_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.modal = function () {
-  //let scroll = calcScroll();
+    function calcScroll() {
+        let div = document.createElement('div');
+
+        div.style.width = '50px';
+        div.style.height = '50px';
+        div.style.overflowY = 'scroll';
+        div.style.visibility = 'hidden';
+
+        document.body.appendChild(div);
+        let scrollWidth = div.offsetWidth - div.clientWidth;
+        div.remove();
+
+        return scrollWidth;
+    }
+
+    calcScroll();
+    
+    const closeElements = document.querySelectorAll('[data-close]');
+    closeElements.forEach(elem => {
+        $(elem).click(() => {
+            $('.modal').fadeOut(500);
+            document.body.style.overflow = '';
+            document.body.style.marginRight = `0px`;
+            //paddingOffsetNow = null;
+            modalContent.style.marginRight = modalContent.style.marginRight - paddingOffsetNow;
+        });
+    });
+
+    $('.modal').click(e => {
+        if (e.target.classList.contains('modal')) {
+            $('.modal').fadeOut(500);
+            document.body.style.overflow = '';
+            document.body.style.marginRight = `0px`;
+            //paddingOffsetNow = null;
+            modalContent.style.marginRight = modalContent.style.marginRight - paddingOffsetNow;
+        }
+    });
+
+};
+
+ $.prototype.moveX = function(move) {
+    for (let i = 0; i < this.length; i++) {
+        if (!move) {
+            this[i].style.transform = '';
+        } else {
+            this[i].style.transform = `TranslateX(${move}px)`;
+        }
+    }
+};  */
+// Modal dynamic
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.modal = function (created) {
   let modalContent = document.querySelector('.modal-content');
   let paddingOffsetNow = window.innerWidth - document.body.offsetWidth + 'px';
   console.log(paddingOffsetNow);
@@ -8047,55 +8113,88 @@ _core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.modal = function () {
     Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).click(e => {
       e.preventDefault();
       Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(target).fadeIn(500);
-      document.body.style.overflow = 'hidden'; //document.body.style.marginRight = `${scroll}px`;
-
+      document.body.style.overflow = 'hidden';
       modalContent.style.marginRight = modalContent.style.marginRight + paddingOffsetNow;
     });
-  }
+    const closeElements = document.querySelectorAll(`${target} [data-close]`);
+    closeElements.forEach(elem => {
+      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(elem).click(() => {
+        Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(target).fadeOut(500);
+        document.body.style.overflow = '';
 
-  function calcScroll() {
-    let div = document.createElement('div');
-    div.style.width = '50px';
-    div.style.height = '50px';
-    div.style.overflowY = 'scroll';
-    div.style.visibility = 'hidden';
-    document.body.appendChild(div);
-    let scrollWidth = div.offsetWidth - div.clientWidth;
-    div.remove();
-    return scrollWidth;
-  }
-
-  calcScroll();
-  const closeElements = document.querySelectorAll('[data-close]');
-  closeElements.forEach(elem => {
-    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(elem).click(() => {
-      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').fadeOut(500);
-      document.body.style.overflow = '';
-      document.body.style.marginRight = `0px`;
-      paddingOffsetNow = null; //modalContent.style.marginRight = modalContent.style.marginRight - paddingOffsetNow;
-    });
-  });
-  Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').click(e => {
-    if (e.target.classList.contains('modal')) {
-      Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('.modal').fadeOut(500);
-      document.body.style.overflow = '';
-      document.body.style.marginRight = `0px`;
-      paddingOffsetNow = null; //modalContent.style.marginRight = modalContent.style.marginRight - paddingOffsetNow;
-    }
-  });
-};
-/* $.prototype.moveX = function(move) {
-    for (let i = 0; i < this.length; i++) {
-        if (!move) {
-            this[i].style.transform = '';
-        } else {
-            this[i].style.transform = `TranslateX(${move}px)`;
+        if (created) {
+          document.querySelector(target).remove();
         }
-    }
-}; */
+      });
+    });
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(target).click(e => {
+      if (e.target.classList.contains('modal')) {
+        Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(target).fadeOut(500);
+        document.body.style.overflow = '';
 
+        if (created) {
+          document.querySelector(target).remove();
+        }
+      }
+    });
+  }
+};
 
 Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-toggle="modal"]').modal();
+
+_core__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.createModal = function ({
+  text,
+  btns
+} = {}) {
+  for (let i = 0; i < this.length; i++) {
+    let modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.setAttribute('id', this[i].getAttribute('data-target').slice(1)); // btns = {count: num, settings: [[text, classNames=[], close, cb]]}
+
+    const buttons = [];
+
+    for (let j = 0; j < btns.count; j++) {
+      let btn = document.createElement('button');
+      btn.classList.add('btn', ...btns.settings[j][1]);
+      btn.textContent = btns.settings[j][0];
+
+      if (btns.settings[j][2]) {
+        btn.setAttribute('data-close', 'true');
+      }
+
+      if (btns.settings[j][3] && typeof btns.settings[j][3] === 'function') {
+        btn.addEventListener('click', btns.settings[j][3]);
+      }
+
+      buttons.push(btn);
+    }
+
+    modal.innerHTML = `
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <button class="close" data-close>
+                        <span>&times;</span>
+                    </button>
+                    <div class="modal-header">
+                        <div class="modal-title">
+                            ${text.title}
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        ${text.body} 
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                </div>
+            </div>
+        `;
+    modal.querySelector('.modal-footer').append(...buttons);
+    document.body.appendChild(modal);
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i]).modal(true);
+    Object(_core__WEBPACK_IMPORTED_MODULE_0__["default"])(this[i].getAttribute('data-target')).fadeIn(500);
+  }
+};
 
 /***/ }),
 
@@ -8591,6 +8690,21 @@ Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('button').eq(2).on('cli
 );
 
 $('.dropdown-toggle').dropdown(); */
+
+Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('#trigger').click(() => Object(_lib_lib__WEBPACK_IMPORTED_MODULE_0__["default"])('#trigger').createModal({
+  text: {
+    title: 'Modal title',
+    body: 'Lorem ipsum dolor sit amet'
+  },
+  btns: {
+    count: 3,
+    settings: [['Close', ['btn-danger', 'mr-10'], true], ['Save changes', ['btn-success'], false, () => {
+      alert('Data saved');
+    }], ['Another btn', ['btn-warning', 'ml-10'], false, () => {
+      alert('Hello World!');
+    }]]
+  }
+}));
 
 /***/ }),
 
